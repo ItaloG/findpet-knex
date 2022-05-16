@@ -1,2 +1,38 @@
 login social
 tabela midia
+
+-accounts #tabela
+  id - uuid
+  nome
+  senha
+  email - unico
+  created_at
+  updated_at
+
+-medias #tabela
+  url's
+  ref - email
+  created_at
+  updated_at
+
+-addresses
+  logradouro
+  cep
+  cidade
+  estado
+  numero
+  complemento
+
+-Contributors #tabela
+  cpf - unico
+  celular
+  telefone
+
+-Institutions #tabela
+  type
+  cnpj - unico
+  descrição
+  celular
+  telefone
+  lat
+  lng
