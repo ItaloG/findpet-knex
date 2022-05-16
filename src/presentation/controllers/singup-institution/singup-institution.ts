@@ -1,3 +1,5 @@
+import { AddAcount } from '../../../domain/usecases/add-account'
+import { AddInstitutionAccount } from '../../../domain/usecases/add-institution-account'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, ok } from '../../helpers/http-helper'
 import {
@@ -10,9 +12,10 @@ import {
 
 export class SingUpInstitutionController implements Controller {
   constructor (
-    private readonly emailValidator: EmailValidator,
-    private readonly cnpjValidator: CnpjValidator,
-    private readonly addInstitutionAccount: AddInstitutionAccount
+    private emailValidator: EmailValidator,
+    private cnpjValidator: CnpjValidator,
+    private addAccount: AddAcount,
+    private addInstitutionAccount: AddInstitutionAccount
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -44,7 +47,7 @@ export class SingUpInstitutionController implements Controller {
       } = httpRequest.body
 
       if (!cellphone && !telephone) {
-        return badRequest(new MissingParamError('Cellphone or telephone'))
+        return badRequest(new MissingParamError('Cellphone and telephone'))
       }
 
       if (password !== passwordConfirmation) {
@@ -52,26 +55,27 @@ export class SingUpInstitutionController implements Controller {
       }
 
       const isValidEmail = this.emailValidator.isValid(email)
-      if (!isValidEmail) {
-        return badRequest(new InvalidParamError('email'))
-      }
+      if (!isValidEmail) return badRequest(new InvalidParamError('email'))
 
       const isValidCnpj = this.cnpjValidator.isValid(cnpj)
-      if (!isValidCnpj) {
-        return badRequest(new InvalidParamError('cnpj'))
-      }
+      if (!isValidCnpj) return badRequest(new InvalidParamError('cnpj'))
 
-      const account = await this.addInstitutionAccount.add({
+      const account = await this.addAccount.add({
         name,
         email,
         password,
+        role: 'Instituição'
+      })
+
+      const institutitionAccount = await this.addInstitutionAccount.add({
+        account_id: account.id,
         type,
         cnpj,
         cellphone,
         telephone
       })
 
-      return ok(account)
+      return ok(institutitionAccount)
     } catch (error) {
       console.error(error)
       return serverError()
