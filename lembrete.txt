@@ -36,3 +36,5 @@ tabela midia
   telefone
   lat
   lng
+
+a.replace(/[/.-]/g, "")
