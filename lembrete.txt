@@ -6,6 +6,7 @@ tabela midia
   nome
   senha
   email - unico
+  role
   created_at
   updated_at
 
@@ -36,5 +37,6 @@ tabela midia
   telefone
   lat
   lng
+  account_id - ref
 
 a.replace(/[/.-]/g, "")
