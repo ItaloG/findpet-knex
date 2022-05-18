@@ -235,4 +235,27 @@ describe('SingUpInstitution Controller', () => {
       new InvalidParamError('passwordConfirmation')
     )
   })
+
+  test('should return 400 if an invalid email is provided', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'invalid_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'valid_type',
+        cnpj: 'valid_cnpj',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(
+      new InvalidParamError('email')
+    )
+  })
 })
