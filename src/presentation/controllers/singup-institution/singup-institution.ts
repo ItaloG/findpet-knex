@@ -1,8 +1,8 @@
-import { AddAcount } from '../../../domain/usecases/add-account'
-import { AddInstitutionAccount } from '../../../domain/usecases/add-institution-account'
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, ok } from '../../helpers/http-helper'
 import {
+  AddAcount,
+  AddInstitutionAccount,
   CnpjValidator,
   Controller,
   EmailValidator,
