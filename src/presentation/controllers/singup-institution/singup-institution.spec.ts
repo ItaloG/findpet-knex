@@ -11,43 +11,75 @@ import {
   EmailValidator
 } from './singup-protocol'
 
-class EmailValidatorStub implements EmailValidator {
-  isValid (email: string): boolean {
-    return true
-  }
+interface SutTypes {
+  sut: SingUpInstitutionController
+  emailValidatorStub: EmailValidator
+  cnpjValidatorStub: CnpjValidator
+  addInstitutionAccountStub: AddInstitutionAccount
 }
 
-class CnpjValidatorStub implements CnpjValidator {
-  isValid (cnpj: string): boolean {
-    return true
-  }
-}
-
-class AddInstitutionAccountStub implements AddInstitutionAccount {
-  async add (account: AddInstitutionAccountModel): Promise<InstitutionModel> {
-    const fakeInstitution = {
-      account_id: 'uuid',
-      type: 'ONG' as InstitutionType,
-      cnpj: 'valid_cnpj',
-      description: 'default_description',
-      cellphone: 'valid_cellphone',
-      telephone: 'valid_telephone',
-      lat: 'valid_lat',
-      lng: 'valid_lng'
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid (email: string): boolean {
+      return true
     }
-
-    return await new Promise((resolve) => resolve(fakeInstitution))
   }
+
+  return new EmailValidatorStub()
 }
 
-const sut = new SingUpInstitutionController(
-  new EmailValidatorStub(),
-  new CnpjValidatorStub(),
-  new AddInstitutionAccountStub()
-)
+const makeCnpjValidator = (): CnpjValidator => {
+  class CnpjValidatorStub implements CnpjValidator {
+    isValid (cnpj: string): boolean {
+      return true
+    }
+  }
+
+  return new CnpjValidatorStub()
+}
+
+const makeAddInstitutionAccount = (): AddInstitutionAccount => {
+  class AddInstitutionAccountStub implements AddInstitutionAccount {
+    async add (account: AddInstitutionAccountModel): Promise<InstitutionModel> {
+      const fakeInstitution = {
+        account_id: 'uuid',
+        type: 'ONG' as InstitutionType,
+        cnpj: 'valid_cnpj',
+        description: 'default_description',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone',
+        lat: 'valid_lat',
+        lng: 'valid_lng'
+      }
+
+      return await new Promise((resolve) => resolve(fakeInstitution))
+    }
+  }
+
+  return new AddInstitutionAccountStub()
+}
+
+const makeSut = (): SutTypes => {
+  const emailValidatorStub = makeEmailValidator()
+  const cnpjValidatorStub = makeCnpjValidator()
+  const addInstitutionAccountStub = makeAddInstitutionAccount()
+  const sut = new SingUpInstitutionController(
+    emailValidatorStub,
+    cnpjValidatorStub,
+    addInstitutionAccountStub
+  )
+
+  return {
+    sut,
+    emailValidatorStub,
+    cnpjValidatorStub,
+    addInstitutionAccountStub
+  }
+}
 
 describe('SingUpInstitution Controller', () => {
   test('should return 400 if no name is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -66,6 +98,7 @@ describe('SingUpInstitution Controller', () => {
   })
 
   test('should return 400 if no email is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -84,6 +117,7 @@ describe('SingUpInstitution Controller', () => {
   })
 
   test('should return 400 if no password is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -102,6 +136,7 @@ describe('SingUpInstitution Controller', () => {
   })
 
   test('should return 400 if no passwordConfirmation is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -116,10 +151,13 @@ describe('SingUpInstitution Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
+    expect(httpResponse.body).toEqual(
+      new MissingParamError('passwordConfirmation')
+    )
   })
 
   test('should return 400 if no type is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -138,6 +176,7 @@ describe('SingUpInstitution Controller', () => {
   })
 
   test('should return 400 if no cnpj is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -156,6 +195,7 @@ describe('SingUpInstitution Controller', () => {
   })
 
   test('should return 400 if no cellphone and telephone is provided', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -169,10 +209,13 @@ describe('SingUpInstitution Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('Cellphone and telephone'))
+    expect(httpResponse.body).toEqual(
+      new MissingParamError('Cellphone and telephone')
+    )
   })
 
   test('should return 400 if password confirmation fails', async () => {
+    const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -188,6 +231,8 @@ describe('SingUpInstitution Controller', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
+    expect(httpResponse.body).toEqual(
+      new InvalidParamError('passwordConfirmation')
+    )
   })
 })
