@@ -136,4 +136,22 @@ describe('SingUpInstitution Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('type'))
   })
+
+  test('should return 400 if no cnpj is provided', async () => {
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'valid_type',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('cnpj'))
+  })
 })
