@@ -3,7 +3,7 @@ import {
   InstitutionType
 } from '../../../domain/models/institution'
 import { AddInstitutionAccountModel } from '../../../domain/usecases/add-institution-account'
-import { MissingParamError } from '../../errors'
+import { InvalidParamError, MissingParamError } from '../../errors'
 import { SingUpInstitutionController } from './singup-institution'
 import {
   AddInstitutionAccount,
@@ -170,5 +170,24 @@ describe('SingUpInstitution Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('Cellphone and telephone'))
+  })
+
+  test('should return 400 if password confirmation fails', async () => {
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'invalid_password',
+        type: 'valid_type',
+        cnpj: 'valid_cnpj',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
   })
 })
