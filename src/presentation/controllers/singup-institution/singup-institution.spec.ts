@@ -9,7 +9,7 @@ import {
   AddInstitutionAccount,
   CnpjValidator,
   EmailValidator
-} from './singup-protocol'
+} from './singup-protocols'
 
 interface SutTypes {
   sut: SingUpInstitutionController
