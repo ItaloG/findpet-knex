@@ -7,7 +7,7 @@ import {
   EmailValidator,
   HttpRequest,
   HttpResponse
-} from './singup-protocol'
+} from './singup-protocols'
 
 export class SingUpInstitutionController implements Controller {
   constructor (
