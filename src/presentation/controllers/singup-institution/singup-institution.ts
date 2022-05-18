@@ -1,7 +1,6 @@
 import { InvalidParamError, MissingParamError } from '../../errors'
 import { badRequest, serverError, ok } from '../../helpers/http-helper'
 import {
-  AddAcount,
   AddInstitutionAccount,
   CnpjValidator,
   Controller,
@@ -14,7 +13,6 @@ export class SingUpInstitutionController implements Controller {
   constructor (
     private emailValidator: EmailValidator,
     private cnpjValidator: CnpjValidator,
-    private addAccount: AddAcount,
     private addInstitutionAccount: AddInstitutionAccount
   ) {}
 
@@ -60,15 +58,10 @@ export class SingUpInstitutionController implements Controller {
       const isValidCnpj = this.cnpjValidator.isValid(cnpj)
       if (!isValidCnpj) return badRequest(new InvalidParamError('cnpj'))
 
-      const account = await this.addAccount.add({
+      const institutitionAccount = await this.addInstitutionAccount.add({
         name,
         email,
         password,
-        role: 'Instituição'
-      })
-
-      const institutitionAccount = await this.addInstitutionAccount.add({
-        account_id: account.id,
         type,
         cnpj,
         cellphone,

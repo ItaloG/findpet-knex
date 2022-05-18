@@ -1,7 +1,9 @@
 import { InstitutionModel, InstitutionType } from '../models/institution'
 
 export interface AddInstitutionAccountModel {
-  account_id: string
+  name: string
+  email: string
+  password: string
   type: InstitutionType
   cnpj: string
   cellphone: string
