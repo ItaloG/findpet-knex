@@ -58,7 +58,7 @@ export class SingUpInstitutionController implements Controller {
       const isValidCnpj = this.cnpjValidator.isValid(cnpj)
       if (!isValidCnpj) return badRequest(new InvalidParamError('cnpj'))
 
-      const institutitionAccount = await this.addInstitutionAccount.add({
+      const institutionAccount = await this.addInstitutionAccount.add({
         name,
         email,
         password,
@@ -68,7 +68,7 @@ export class SingUpInstitutionController implements Controller {
         telephone
       })
 
-      return ok(institutitionAccount)
+      return ok(institutionAccount)
     } catch (error) {
       console.error(error)
       return serverError()

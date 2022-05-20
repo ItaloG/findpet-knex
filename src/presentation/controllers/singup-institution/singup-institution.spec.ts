@@ -259,7 +259,7 @@ describe('SingUpInstitution Controller', () => {
     )
   })
 
-  test('should call EmailValidator eith correct email', async () => {
+  test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     const httpRequest = {
