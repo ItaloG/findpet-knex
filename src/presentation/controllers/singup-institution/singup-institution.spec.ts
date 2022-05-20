@@ -3,7 +3,7 @@ import {
   InstitutionType
 } from '../../../domain/models/institution'
 import { AddInstitutionAccountModel } from '../../../domain/usecases/add-institution-account'
-import { InvalidParamError, MissingParamError } from '../../errors'
+import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
 import { SingUpInstitutionController } from './singup-institution'
 import {
   AddInstitutionAccount,
@@ -277,5 +277,25 @@ describe('SingUpInstitution Controller', () => {
 
     await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com')
+  })
+
+  test('should return 500 if EmailValidator throws ', async () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => { throw new Error() })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'valid_type',
+        cnpj: 'valid_cnpj',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
