@@ -259,6 +259,28 @@ describe('SingUpInstitution Controller', () => {
     )
   })
 
+  test('should return 400 if an invalid cnpj is provided', async () => {
+    const { sut, cnpjValidatorStub } = makeSut()
+    jest.spyOn(cnpjValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'any_type',
+        cnpj: 'invalid_cnpj',
+        cellphone: 'any_cellphone',
+        telephone: 'any_telephone'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(
+      new InvalidParamError('cnpj')
+    )
+  })
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
