@@ -14,7 +14,7 @@ export class SingUpInstitutionController implements Controller {
     private emailValidator: EmailValidator,
     private cnpjValidator: CnpjValidator,
     private addInstitutionAccount: AddInstitutionAccount
-  ) {}
+  ) { }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -43,19 +43,19 @@ export class SingUpInstitutionController implements Controller {
         cellphone,
         telephone
       } = httpRequest.body
+      const sanitizedCnpj = cnpj.replace(/[/.-]/g, '')
 
-      if (!cellphone && !telephone) {
-        return badRequest(new MissingParamError('Cellphone and telephone'))
-      }
+      const institutionTypes = ['ONG', 'CANIL', 'VETERINÁRIO', 'PETSHOP']
+      if (!institutionTypes.includes(type)) return badRequest(new InvalidParamError('type'))
 
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'))
-      }
+      if (!cellphone && !telephone) return badRequest(new MissingParamError('Cellphone and telephone'))
+
+      if (password !== passwordConfirmation) return badRequest(new InvalidParamError('passwordConfirmation'))
 
       const isValidEmail = this.emailValidator.isValid(email)
       if (!isValidEmail) return badRequest(new InvalidParamError('email'))
 
-      const isValidCnpj = this.cnpjValidator.isValid(cnpj)
+      const isValidCnpj = this.cnpjValidator.isValid(sanitizedCnpj)
       if (!isValidCnpj) return badRequest(new InvalidParamError('cnpj'))
 
       const institutionAccount = await this.addInstitutionAccount.add({
