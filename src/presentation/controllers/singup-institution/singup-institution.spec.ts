@@ -43,7 +43,7 @@ const makeAddInstitutionAccount = (): AddInstitutionAccount => {
     async add (account: AddInstitutionAccountModel): Promise<InstitutionModel> {
       const fakeInstitution = {
         account_id: 'uuid',
-        type: 'ONG' as InstitutionType,
+        type: 'valid_type' as InstitutionType,
         cnpj: 'valid_cnpj',
         description: 'default_description',
         cellphone: 'valid_cellphone',
@@ -143,7 +143,7 @@ describe('SingUpInstitution Controller', () => {
         name: 'any_name',
         email: 'any_email@email.com',
         password: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -203,7 +203,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj'
       }
     }
@@ -223,7 +223,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'invalid_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -246,7 +246,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'invalid_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -269,7 +269,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'invalid_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -283,6 +283,28 @@ describe('SingUpInstitution Controller', () => {
     )
   })
 
+  test('should return 400 if an invalid type of institution is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'invalid_type',
+        cnpj: 'invalid_cnpj',
+        cellphone: 'any_cellphone',
+        telephone: 'any_telephone'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(
+      new InvalidParamError('type')
+    )
+  })
+
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
@@ -292,7 +314,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -312,7 +334,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -332,7 +354,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -352,7 +374,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -372,7 +394,7 @@ describe('SingUpInstitution Controller', () => {
         email: 'any_email@email.com',
         password: 'any_password',
         passwordConfirmation: 'any_password',
-        type: 'any_type',
+        type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
         telephone: 'any_telephone'
@@ -401,7 +423,7 @@ describe('SingUpInstitution Controller', () => {
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
       account_id: 'uuid',
-      type: 'ONG',
+      type: 'valid_type',
       cnpj: 'valid_cnpj',
       description: 'default_description',
       cellphone: 'valid_cellphone',
