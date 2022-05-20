@@ -281,6 +281,7 @@ describe('SingUpInstitution Controller', () => {
       new InvalidParamError('cnpj')
     )
   })
+
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
@@ -299,6 +300,26 @@ describe('SingUpInstitution Controller', () => {
 
     await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com')
+  })
+
+  test('should call CnpjValidator with correct cnpj', async () => {
+    const { sut, cnpjValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(cnpjValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        type: 'any_type',
+        cnpj: 'any_cnpj',
+        cellphone: 'any_cellphone',
+        telephone: 'any_telephone'
+      }
+    }
+
+    await sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith('any_cnpj')
   })
 
   test('should return 500 if EmailValidator throws', async () => {
