@@ -9,4 +9,5 @@ export interface InstitutionModel {
   telephone?: string
   lat: string
   lng: string
+  jwt: string
 }

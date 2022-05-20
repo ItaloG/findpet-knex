@@ -44,12 +44,13 @@ const makeAddInstitutionAccount = (): AddInstitutionAccount => {
       const fakeInstitution = {
         account_id: 'uuid',
         type: 'ONG' as InstitutionType,
-        cnpj: 'any_cnpj',
+        cnpj: 'valid_cnpj',
         description: 'default_description',
-        cellphone: 'any_cellphone',
-        telephone: 'any_telephone',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone',
         lat: 'valid_lat',
-        lng: 'valid_lng'
+        lng: 'valid_lng',
+        jwt: 'valid_jwt'
       }
 
       return await new Promise((resolve) => resolve(fakeInstitution))
@@ -380,5 +381,34 @@ describe('SingUpInstitution Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password',
+        type: 'ONG',
+        cnpj: 'valid_cnpj',
+        cellphone: 'valid_cellphone',
+        telephone: 'valid_telephone'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      account_id: 'uuid',
+      type: 'ONG',
+      cnpj: 'valid_cnpj',
+      description: 'default_description',
+      cellphone: 'valid_cellphone',
+      telephone: 'valid_telephone',
+      lat: 'valid_lat',
+      lng: 'valid_lng',
+      jwt: 'valid_jwt'
+    })
   })
 })
