@@ -1,6 +1,6 @@
 export class UserExistsError extends Error {
-  constructor () {
-    super('User already in created')
+  constructor (param: string) {
+    super(`${param} already in use`)
     this.name = 'UserExistsError'
   }
 }
