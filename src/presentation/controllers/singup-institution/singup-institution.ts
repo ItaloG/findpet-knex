@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError, ok } from '../../helpers/http-helper'
+import { badRequest, serverError, ok, conflict } from '../../helpers/http-helper'
 import {
   AddInstitutionAccount,
   CnpjValidator,
@@ -69,9 +69,14 @@ export class SingUpInstitutionController implements Controller {
       })
 
       return ok(institutionAccount)
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
-      return serverError()
+      switch (error.name) {
+        case 'UserExistsError':
+          return conflict(error)
+        default:
+          return serverError()
+      }
     }
   }
 }
