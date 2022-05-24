@@ -24,7 +24,12 @@ export class SingUpInstitutionController implements Controller {
         'password',
         'passwordConfirmation',
         'type',
-        'cnpj'
+        'cnpj',
+        'cep',
+        'city',
+        'state',
+        'number',
+        'street'
       ]
 
       for (const field of requireFields) {
@@ -41,7 +46,13 @@ export class SingUpInstitutionController implements Controller {
         type,
         cnpj,
         cellphone,
-        telephone
+        telephone,
+        cep,
+        city,
+        state,
+        number,
+        street,
+        complement
       } = httpRequest.body
       const sanitizedCnpj = cnpj.replace(/[/.-]/g, '')
 
@@ -65,7 +76,13 @@ export class SingUpInstitutionController implements Controller {
         type,
         cnpj,
         cellphone,
-        telephone
+        telephone,
+        cep,
+        complement,
+        city,
+        number,
+        state,
+        street
       })
 
       return ok(institutionAccount)
