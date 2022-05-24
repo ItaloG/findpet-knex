@@ -5,8 +5,14 @@ export interface InstitutionModel {
   type: InstitutionType
   cnpj: string
   description: string
-  cellphone?: string
-  telephone?: string
+  cellphone?: number
+  telephone?: number
+  street: string
+  cep: string
+  city: string
+  state: string
+  number: number
+  complement?: string
   lat: string
   lng: string
   jwt: string

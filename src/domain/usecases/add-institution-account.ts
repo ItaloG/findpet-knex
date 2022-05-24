@@ -1,3 +1,4 @@
+import { CEP } from '../models/cep'
 import { InstitutionModel, InstitutionType } from '../models/institution'
 
 export interface AddInstitutionAccountModel {
@@ -6,8 +7,14 @@ export interface AddInstitutionAccountModel {
   password: string
   type: InstitutionType
   cnpj: string
-  cellphone: string
-  telephone: string
+  street: string
+  cep: CEP
+  city: string
+  state: string
+  number: number
+  complement?: string
+  cellphone: number
+  telephone: number
 }
 
 export interface AddInstitutionAccount {
