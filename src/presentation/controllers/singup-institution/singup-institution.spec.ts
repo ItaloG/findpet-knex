@@ -46,8 +46,14 @@ const makeAddInstitutionAccount = (): AddInstitutionAccount => {
         type: 'valid_type' as InstitutionType,
         cnpj: 'valid_cnpj',
         description: 'default_description',
-        cellphone: 'valid_cellphone',
-        telephone: 'valid_telephone',
+        cellphone: 1000,
+        telephone: 1000,
+        cep: 'valid_cep',
+        city: 'valid_city',
+        complement: 'valid_complement',
+        number: 1000,
+        state: 'valid_state',
+        street: 'valid_street',
         lat: 'valid_lat',
         lng: 'valid_lng',
         jwt: 'valid_jwt'
@@ -204,7 +210,13 @@ describe('SingUpInstitution Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         type: 'ONG',
-        cnpj: 'any_cnpj'
+        cnpj: 'any_cnpj',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -226,7 +238,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -249,7 +267,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -272,7 +296,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'invalid_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -294,7 +324,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'invalid_type',
         cnpj: 'invalid_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -317,7 +353,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -337,7 +379,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
 
@@ -357,7 +405,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -377,7 +431,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -397,7 +457,13 @@ describe('SingUpInstitution Controller', () => {
         type: 'ONG',
         cnpj: 'any_cnpj',
         cellphone: 'any_cellphone',
-        telephone: 'any_telephone'
+        telephone: 'any_telephone',
+        cep: 'any_cep',
+        city: 'any_city',
+        state: 'any_state',
+        street: 'any_street',
+        complement: 'any_complement',
+        number: 'any_number'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -415,8 +481,14 @@ describe('SingUpInstitution Controller', () => {
         passwordConfirmation: 'valid_password',
         type: 'ONG',
         cnpj: 'valid_cnpj',
-        cellphone: 'valid_cellphone',
-        telephone: 'valid_telephone'
+        cellphone: 1000,
+        telephone: 1000,
+        cep: 'valid_cep',
+        city: 'valid_city',
+        complement: 'valid_complement',
+        number: 1000,
+        state: 'valid_state',
+        street: 'valid_street'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -426,8 +498,14 @@ describe('SingUpInstitution Controller', () => {
       type: 'valid_type',
       cnpj: 'valid_cnpj',
       description: 'default_description',
-      cellphone: 'valid_cellphone',
-      telephone: 'valid_telephone',
+      cellphone: 1000,
+      telephone: 1000,
+      cep: 'valid_cep',
+      city: 'valid_city',
+      complement: 'valid_complement',
+      number: 1000,
+      state: 'valid_state',
+      street: 'valid_street',
       lat: 'valid_lat',
       lng: 'valid_lng',
       jwt: 'valid_jwt'
