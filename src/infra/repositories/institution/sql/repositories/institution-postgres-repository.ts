@@ -1,10 +1,11 @@
 import { AddInstitutionAccountRepository, AddInstitutionAccountWithPositionModel } from '../../../../../data/protocols/institution/add-institution-account-repository'
+import { FindInstitutionByCnpjRepository } from '../../../../../data/protocols/institution/find-institution-by-cnpj-repository'
 import { FindInstitutionByEmailRepository } from '../../../../../data/protocols/institution/find-institution-by-email-repository'
 import { AddAccountModel } from '../../../../../domain/models/account'
 import { InstitutionModel } from '../../../../../domain/models/institution'
 import { db } from '../../../../knex/connection'
 
-export class InstitutionPostgresRepository implements AddInstitutionAccountRepository, FindInstitutionByEmailRepository {
+export class InstitutionPostgresRepository implements AddInstitutionAccountRepository, FindInstitutionByEmailRepository, FindInstitutionByCnpjRepository {
     private readonly table = 'institutions'
     private readonly accountTable = 'accounts'
 
@@ -19,8 +20,14 @@ export class InstitutionPostgresRepository implements AddInstitutionAccountRepos
       }
     }
 
-    async find (email: string): Promise<InstitutionModel | null> {
+    async findByEmail (email: string): Promise<InstitutionModel | null> {
       const user = await db<InstitutionModel>(this.table).where(email).first()
+      if (!user) return null
+      return user
+    }
+
+    async findByCnpj (cnpj: string): Promise<InstitutionModel | null> {
+      const user = await db<InstitutionModel>(this.table).where(cnpj).first()
       if (!user) return null
       return user
     }
