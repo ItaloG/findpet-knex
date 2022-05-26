@@ -31,7 +31,8 @@ export class DbAddInstitutionAccount implements AddInstitutionAccount {
 
     const position = await this.findGeolocation.find(account.cep)
 
-    const institution = await this.addInstitutionAccountRepository.add(Object.assign({}, account, { password: hashedPassword, lat: position.lat, lng: position.lng }))
+    const description = 'Insira uma descrição'
+    const institution = await this.addInstitutionAccountRepository.add(Object.assign({}, account, { password: hashedPassword, lat: position.lat, lng: position.lng, description }))
     return institution
   }
 }
