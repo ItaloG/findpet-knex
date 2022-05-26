@@ -7,3 +7,10 @@ export interface AccountModel {
   password: string
   role: Role
 }
+
+export interface AddAccountModel {
+  name: string
+  email: string
+  password: string
+  role: Role
+}
