@@ -1,3 +1,5 @@
+import { CEP } from './cep'
+
 export type InstitutionType = 'ONG' | 'CANIL' | 'VETERINÁRIO' | 'PETSHOP'
 
 export interface InstitutionModel {
@@ -8,7 +10,7 @@ export interface InstitutionModel {
   cellphone?: number
   telephone?: number
   street: string
-  cep: string
+  cep: CEP
   city: string
   state: string
   number: number
