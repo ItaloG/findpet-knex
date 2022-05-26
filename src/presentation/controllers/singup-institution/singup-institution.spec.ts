@@ -1,3 +1,4 @@
+import { CEP } from '../../../domain/models/cep'
 import {
   InstitutionModel,
   InstitutionType
@@ -48,15 +49,14 @@ const makeAddInstitutionAccount = (): AddInstitutionAccount => {
         description: 'default_description',
         cellphone: 1000,
         telephone: 1000,
-        cep: 'valid_cep',
+        cep: 'valid_cep' as unknown as CEP,
         city: 'valid_city',
         complement: 'valid_complement',
         number: 1000,
         state: 'valid_state',
         street: 'valid_street',
         lat: 'valid_lat',
-        lng: 'valid_lng',
-        jwt: 'valid_jwt'
+        lng: 'valid_lng'
       }
 
       return await new Promise((resolve) => resolve(fakeInstitution))
@@ -507,8 +507,7 @@ describe('SingUpInstitution Controller', () => {
       state: 'valid_state',
       street: 'valid_street',
       lat: 'valid_lat',
-      lng: 'valid_lng',
-      jwt: 'valid_jwt'
+      lng: 'valid_lng'
     })
   })
 })
