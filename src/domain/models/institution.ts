@@ -15,5 +15,4 @@ export interface InstitutionModel {
   complement?: string
   lat: string
   lng: string
-  jwt: string
 }
