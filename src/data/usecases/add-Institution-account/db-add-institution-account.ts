@@ -21,10 +21,10 @@ export class DbAddInstitutionAccount implements AddInstitutionAccount {
   ) {}
 
   async add (account: AddInstitutionAccountModel): Promise<InstitutionModel> {
-    const emailInUse = await this.findInstitutionByEmailRepository.find(account.email)
+    const emailInUse = await this.findInstitutionByEmailRepository.findByEmail(account.email)
     if (emailInUse) throw new UserExistsError('email')
 
-    const cnpjInUse = await this.findInstitutionByCnpj.find(account.cnpj)
+    const cnpjInUse = await this.findInstitutionByCnpj.findByCnpj(account.cnpj)
     if (cnpjInUse) throw new UserExistsError('cnpj')
 
     const hashedPassword = await this.passwordHashing.hash(account.password)
