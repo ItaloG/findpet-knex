@@ -1,6 +1,9 @@
 // Update with your config settings.
 import dotenv from 'dotenv'
-dotenv.config()
+import { resolve } from 'path'
+
+const dotenvFilePath = resolve(__dirname, '..', '..', '..', '.env-development')
+dotenv.config({ path: dotenvFilePath })
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
