@@ -12,7 +12,7 @@ export class InstitutionPostgresRepository implements AddInstitutionAccountRepos
     async add (institutionData: AddInstitutionAccountWithPositionModel): Promise<InstitutionModel> {
       try {
         const [account] = await db<AddAccountModel & {id: string}>(this.accountTable).insert({ email: institutionData.email, name: institutionData.name, password: institutionData.password, role: 'Instituição' }).returning('*')
-        const [institution] = await db<AddInstitutionAccountWithPositionModel>(this.table).insert(institutionData).returning('*')
+        const [institution] = await db<AddInstitutionAccountWithPositionModel>(this.table).insert(institutionData).returning('*') // mudar
         console.log(Object.assign({}, institution, { account_id: account.id }))
         return Object.assign({}, institution, { account_id: account.id })
       } catch (error: any) {
