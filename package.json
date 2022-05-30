@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
-    "dev": "tsnd src/server.ts",
+    "dev": "tsnd --inspect --transpile-only --ignore-watch node_modules --poll --respawn src/main/server.ts",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
