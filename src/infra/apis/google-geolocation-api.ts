@@ -13,7 +13,7 @@ export class GoogleGeolocationApi implements FindGeolocation<CEP> {
       method: 'post',
       url: 'https://maps.googleapis.com/maps/api/geocode/json?',
       params: {
-        address: arg.cep,
+        address: arg,
         key: process.env.GOOGLE_API_KEY
       }
     })
